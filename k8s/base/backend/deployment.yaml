@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: teemii-backend
+  namespace: teemii
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: teemii-backend
+  template:
+    metadata:
+      labels:
+        app: teemii-backend
+    spec:
+      
+      tolerations:
+        - key: "service-type"
+          operator: "Equal"
+          value: "backend"
+          effect: "NoSchedule"
+
+      containers:
+        - name: backend
+          image: dokkaner/teemii-backend:latest
+          ports:
+            - containerPort: 3000
+              name: rest
+            - containerPort: 1555
+              name: sockets
+          volumeMounts:
+            - name: data
+              mountPath: /data
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: teemii-backend-pvc

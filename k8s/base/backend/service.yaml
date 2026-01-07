@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: teemii-backend
+  namespace: teemii
+spec:
+  selector:
+    app: teemii-backend
+  ports:
+    - name: rest
+      port: 3000
+      targetPort: 3000
+    - name: sockets
+      port: 1555
+      targetPort: 1555
+  type: ClusterIP

@@ -1,0 +1,11 @@
+persistence:
+  enable: true
+  size: 1Gi
+service:
+  type: LoadBalancer
+
+tolerations:
+  - key: "service-type"
+    operator: "Equal"
+    value: "backend"
+    effect: "NoSchedule"
