@@ -1,0 +1,16 @@
+backend:
+  replicas: 1
+  image: dokkaner/teemii-backend:latest
+  rest_port: 3000
+  sockets_port: 1555
+  pvc:
+    mount_path: /data
+  
+pvc:
+  size: 1Gi
+
+frontend:
+  replicas: 2
+  image: dokkaner/teemii-frontend:latest
+  port: 80
+  nodePort: 30080

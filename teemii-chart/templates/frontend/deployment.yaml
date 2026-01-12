@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-frontend
+spec:
+  replicas: {{ .Values.frontend.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-frontend
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-frontend
+    spec:
+
+      tolerations:
+        - key: "service-type"
+          operator: "Equal"
+          value: "frontend"
+          effect: "NoSchedule"
+
+      containers:
+        - name: frontend
+          image: {{ .Values.frontend.image }}
+          ports:
+            - containerPort: {{ .Values.frontend.port }}
+          env:
+            - name: VITE_APP_TITLE
+              value: "Teemii"
+            - name: VITE_APP_PORT
+              value: "80"

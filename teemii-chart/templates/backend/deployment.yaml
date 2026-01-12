@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-backend
+spec:
+  replicas: {{ .Values.backend.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-backend
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-backend
+    spec:
+      
+      tolerations:
+        - key: "service-type"
+          operator: "Equal"
+          value: "backend"
+          effect: "NoSchedule"
+
+      containers:
+        - name: backend
+          image: {{ .Values.backend.image }}
+          ports:
+            - containerPort: {{ .Values.backend.rest_port }}
+              name: rest
+            - containerPort: {{ .Values.backend.sockets_port }}
+              name: sockets
+          volumeMounts:
+            - name: data
+              mountPath: {{ .Values.backend.pvc.mount_path }}
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}-backend-pvc

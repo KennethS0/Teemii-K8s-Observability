@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-backend
+spec:
+  selector:
+    app: {{ .Release.Name }}-backend
+  ports:
+    - name: rest
+      port: {{ .Values.backend.rest_port }}
+      targetPort: {{ .Values.backend.rest_port }}
+    - name: sockets
+      port: {{ .Values.backend.sockets_port }}
+      targetPort: {{ .Values.backend.sockets_port }}
+  type: ClusterIP
