@@ -4,6 +4,8 @@ This repository contains a demonstration on how to configure different observabi
 The application being monitored is based on a third party app called 'Teemii' that contains both frontend and backend containers.
 
 ## Set up the application
+
+### Manual Way without Helm Charts
 All the files needed to set up the application are in `k8s/base`, all the commands below are being executed in that specific folder.
 
 1. Create the kind cluster: `kind create cluster -n teemii --config kind-config.yaml`
